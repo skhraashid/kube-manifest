@@ -1,0 +1,24 @@
+apiVersion: networking.k8s.io/v1beta1
+kind: Ingress
+metadata:
+  name: plexserver            # < name of ingress entry
+  namespace: plex       # < namespace where place the ingress enty
+  annotations:
+    kubernetes.io/ingress.class: "nginx"  # < use the nginx ingress controller
+    nginx.ingress.kubernetes.io/backend-protocol: "HTTPS"  # < communicate in https with the backend (service/pod)
+    cert-manager.io/cluster-issuer: "letsencrypt-prod"     # < use letsencrypt-prod application in kubernetes to generate ssl certificate
+    nginx.ingress.kubernetes.io/app-root: /web             # < the root directory of the plex webserver
+spec:
+  rules:
+  - host: plexserver.192.168.1.32.nip.io
+    http:
+      paths:
+      - path: /
+        pathType: Prefix
+        backend:
+          serviceName: plex-tcp
+          servicePort: pms-web   # < same label as the port in the service tcp file
+  tls: # < placing a host in the TLS config will indicate a cert should be created
+  - hosts:
+    - plexserver.192.168.1.32.nip.io
+    secretName: plexserver.192.168.1.32.nip.io-tls # < cert-manager will store the created certificate in this secret.
