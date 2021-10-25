@@ -1,0 +1,23 @@
+kind: Pod
+apiVersion: v1
+metadata:
+  name: test-pod
+spec:
+  containers:
+  - name: test-pod
+    image: busybox
+    command:
+      - "/bin/sh"
+    args:
+      - "-c"
+      - "touch /mnt/SUCCESS && exit 0 || exit 1"
+    volumeMounts:
+      - name: test-claim
+        mountPath: "/mnt"
+  restartPolicy: "Never"
+  volumes:
+    - name: test-claim
+      persistentVolumeClaim:
+        claimName: test-claim
+  nodeSelector:
+    cpu: arm64
