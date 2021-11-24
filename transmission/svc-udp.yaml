@@ -1,0 +1,17 @@
+kind: Service
+apiVersion: v1
+metadata:
+  name: transmission-udp 
+  namespace: transmission       
+  annotations:
+    metallb.universe.tf/allow-shared-ip: transmission # < annotation name to combine the Service IP, make sure it's same name as in the service UDP yaml
+spec:
+  selector:
+    app: transmission           
+  ports:
+  - port: 51413                
+    targetPort: 51413         
+    name: tran-udp       
+    protocol: UDP
+  type: LoadBalancer
+  loadBalancerIP: 192.168.1.31
