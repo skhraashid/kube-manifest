@@ -1,0 +1,65 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    app: transmission               
+  name: transmission                
+  namespace: transmission               
+spec:
+  replicas: 1                     
+  revisionHistoryLimit: 0
+  selector:
+    matchLabels:
+      app: transmission
+  strategy:
+    rollingUpdate:
+      maxSurge: 0                 
+      maxUnavailable: 1           
+    type: RollingUpdate
+  template:
+    metadata:
+      labels:
+        app: transmission
+    spec:
+      volumes:
+      - name: transmission-config
+        persistentVolumeClaim:
+          claimName: transmission-pvc-config
+      - name: transmission-watch
+        persistentVolumeClaim:
+          claimName: transmission-pvc-watch
+      - name: transmission-download
+        persistentVolumeClaim:
+          claimName: transmission-pvc-download
+      containers:
+      - env:                       
+        - name: PGID
+          value: "\x31\x30\x30\x31"    # < ASCII code for '1001'
+        - name: PUID
+          value: "\x31\x30\x30\x31" # < ACII code for '1001'
+        - name: TZ
+          value: Asia/Dubai
+        image: lscr.io/linuxserver/transmission 
+        imagePullPolicy: Always
+        name: transmission
+        ports:
+        - containerPort: 9091     
+          name: web 
+          protocol: TCP
+        - containerPort: 51413
+          name: tran-tcp
+          protocol: TCP
+        - containerPort: 51413
+          name: tran-udp
+          protocol: UDP
+        resources: {}
+        stdin: true
+        tty: true
+        volumeMounts:            
+        - mountPath: /config     
+          name: transmission-config 
+        - mountPath: /download
+          name: transmission-download 
+        - mountPath: /watch
+          name: transmission-watch
+      restartPolicy: Always
