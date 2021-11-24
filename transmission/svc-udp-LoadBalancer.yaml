@@ -1,0 +1,14 @@
+kind: Service
+apiVersion: v1
+metadata:
+  name: transmission-udp 
+  namespace: transmission       
+spec:
+  selector:
+    app: transmission           
+  ports:
+  - port: 51413                
+    targetPort: 51413         
+    name: tran-udp       
+    protocol: UDP
+  type: LoadBalancer

@@ -1,0 +1,13 @@
+kind: PersistentVolumeClaim
+apiVersion: v1
+metadata:
+  name: transmission-pvc-config
+  annotations:
+    volume.beta.kubernetes.io/storage-class: "managed-nfs-storage"
+  namespace: transmission
+spec:
+  accessModes:
+    - ReadWriteMany
+  resources:
+    requests:
+      storage: 10Mi
