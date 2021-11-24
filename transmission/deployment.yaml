@@ -28,9 +28,9 @@ spec:
       - name: transmission-watch
         persistentVolumeClaim:
           claimName: transmission-pvc-watch
-      - name: transmission-download
+      - name: transmission-downloads
         persistentVolumeClaim:
-          claimName: transmission-pvc-download
+          claimName: transmission-pvc-downloads
       containers:
       - env:                       
         - name: PGID
@@ -39,7 +39,7 @@ spec:
           value: "\x31\x30\x30\x31" # < ACII code for '1001'
         - name: TZ
           value: Asia/Dubai
-        image: lscr.io/linuxserver/transmission 
+        image: linuxserver/transmission 
         imagePullPolicy: Always
         name: transmission
         ports:
@@ -58,8 +58,8 @@ spec:
         volumeMounts:            
         - mountPath: /config     
           name: transmission-config 
-        - mountPath: /download
-          name: transmission-download 
+        - mountPath: /downloads
+          name: transmission-downloads 
         - mountPath: /watch
           name: transmission-watch
       restartPolicy: Always
