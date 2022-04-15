@@ -1,0 +1,26 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: nextcloud-ingress
+  namespace: nextcloud
+  annotations:
+    kubernetes.io/ingress.class: "nginx"
+    nginx.ingress.kubernetes.io/proxy-body-size: "1024m"
+    cert-manager.io/cluster-issuer: letsencrypt-prod
+spec:
+  rules:
+  - host: srdrive.ddns.net
+    http:
+      paths:
+      - path: /
+        pathType: Prefix
+        backend:
+          service:
+            name: nextcloud-server
+            port:
+              number: 8080
+  tls:
+  - hosts:
+    - srdrive.ddns.net
+    secretName: srdrive.ddns.net-tls # < cert-manager will store the created certificate in this secret.
+

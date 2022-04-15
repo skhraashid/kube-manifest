@@ -29,12 +29,12 @@ spec:
             - name: PROVISIONER_NAME
               value: srhome.com/nfs
             - name: NFS_SERVER
-              value: 192.168.1.2
+              value: 192.168.1.31
             - name: NFS_PATH
-              value: /media/rashid/Linux/pv/
+              value: /media/Linux/pv/
       volumes:
         - name: nfs-client-root
           nfs:
-            server: 192.168.1.2
-            path: /media/rashid/Linux/pv/
+            server: 192.168.1.31
+            path: /media/Linux/pv/
 

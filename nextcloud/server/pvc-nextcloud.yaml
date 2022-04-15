@@ -1,0 +1,13 @@
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: nextcloud-pvc
+  namespace: nextcloud
+spec:
+  storageClassName: ""
+  volumeName: nextcloud-pv
+  accessModes:
+  - ReadWriteMany
+  resources:
+     requests:
+       storage: 512Gi
