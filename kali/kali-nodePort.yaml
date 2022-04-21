@@ -1,0 +1,14 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: kali-ssh
+  namespace: kali
+spec:
+  type: NodePort
+  ports:
+    - protocol: TCP
+      port: 22
+      nodePort: 30022
+      targetPort: 22
+  selector:
+    app: kali

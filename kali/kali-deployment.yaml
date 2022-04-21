@@ -1,0 +1,23 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: kali
+  labels:
+    app: kali
+  namespace: kali
+spec:
+  selector:
+    matchLabels:
+      app: kali
+  replicas: 1
+  template:
+    metadata:
+      name: kali
+      labels:
+        app: kali
+    spec:
+      containers:
+        - name: kali
+          image: skhraashid/kali:arm64
+          ports:
+          - containerPort: 22

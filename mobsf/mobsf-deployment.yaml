@@ -1,0 +1,23 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: mobsf
+  labels:
+    app: mobsf
+  namespace: mobsf
+spec:
+  selector:
+    matchLabels:
+      app: mobsf
+  replicas: 1
+  template:
+    metadata:
+      name: mobsf
+      labels:
+        app: mobsf
+    spec:
+      containers:
+        - name: mobsf
+          image: opensecurity/mobile-security-framework-mobsf:latest
+          ports:
+          - containerPort: 8000
